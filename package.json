@@ -1,0 +1,31 @@
+{
+  "name": "recipe-idea-generator",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "private": true,
+  "workspaces": [
+    "frontend",
+    "backend"
+  ],
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/amyzheng95/recipe-idea-generator.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/amyzheng95/recipe-idea-generator/issues"
+  },
+  "homepage": "https://github.com/amyzheng95/recipe-idea-generator#readme",
+  "dependencies": {
+    "@headlessui/react": "^2.2.0",
+    "@heroicons/react": "^2.2.0",
+    "next-themes": "^0.4.4",
+    "react-icons": "^5.4.0"
+  }
+}
