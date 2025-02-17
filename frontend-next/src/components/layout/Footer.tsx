@@ -1,3 +1,4 @@
+import { IconType } from "react-icons";
 import { FaHeart } from "react-icons/fa";
 import { Amatic_SC } from "next/font/google";
 

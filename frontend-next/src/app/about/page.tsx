@@ -2,8 +2,15 @@
 
 import Image from "next/image";
 import { FaInstagram, FaYoutube, FaTiktok } from "react-icons/fa";
+import { IconType } from "react-icons";
 
-const socialLinks = [
+type SocialLink = {
+  name: string;
+  href: string;
+  icon: IconType;
+};
+
+const socialLinks: SocialLink[] = [
   {
     name: "Instagram",
     href: "https://www.instagram.com/foodwithpiggy1/",
