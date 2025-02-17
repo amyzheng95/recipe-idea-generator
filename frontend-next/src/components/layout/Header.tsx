@@ -10,7 +10,6 @@ import { Amatic_SC } from "next/font/google";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import ThemeToggle from "@/components/ui/ThemeToggle";
 import { FaInstagram, FaYoutube, FaTiktok } from "react-icons/fa";
-import { IconType } from "react-icons";
 
 const barriecito = Barriecito({
   weight: "400",
@@ -30,21 +29,14 @@ const amaticSCBold = Amatic_SC({
   display: "swap",
 });
 
-type NavItem = {
-  name: string;
-  href: string;
-  external?: boolean;
-  icon?: IconType;
-};
-
-const navigation: NavItem[] = [
+const navigation = [
   { name: "All Recipes", href: "/" },
   { name: "Cooking Technique", href: "/techniques" },
   { name: "Product Recs", href: "/products" },
   { name: "About Me", href: "/about" },
 ];
 
-const socialLinks: NavItem[] = [
+const socialLinks = [
   {
     name: "Instagram",
     href: "https://www.instagram.com/foodwithpiggy1/",
@@ -86,7 +78,7 @@ export default function Header() {
     isMobile = false,
     onClick,
   }: {
-    item: NavItem;
+    item: (typeof navigation)[0];
     isMobile?: boolean;
     onClick?: () => void;
   }) => {
