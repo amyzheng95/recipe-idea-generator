@@ -29,11 +29,24 @@ const amaticSCBold = Amatic_SC({
   display: "swap",
 });
 
-const navigation = [
+type NavItem = {
+  name: string;
+  href: string;
+  external?: boolean;
+};
+
+const navigation: NavItem[] = [
+  { name: "Home", href: "/" },
+  { name: "About", href: "/about" },
+  { name: "Recipes", href: "/recipes" },
+  {
+    name: "GitHub",
+    href: "https://github.com/yourusername/yourrepo",
+    external: true,
+  },
   { name: "All Recipes", href: "/" },
   { name: "Cooking Technique", href: "/techniques" },
   { name: "Product Recs", href: "/products" },
-  { name: "About Me", href: "/about" },
 ];
 
 const socialLinks = [
@@ -75,21 +88,19 @@ export default function Header() {
 
   const NavLink = ({
     item,
-    isMobile = false,
-    onClick,
+    mobile = false,
   }: {
-    item: (typeof navigation)[0];
-    isMobile?: boolean;
-    onClick?: () => void;
+    item: NavItem;
+    mobile?: boolean;
   }) => {
     const pathname = usePathname();
     const isActive = !item.external && pathname === item.href;
     const baseClasses = `${
       isActive
         ? "text-brand-pink dark:text-blue-400"
-        : "text-black hover:text-brand-pink dark:text-gray-300 dark:hover:text-white"
+        : "text-gray-700 dark:text-gray-200"
     } ${
-      isMobile ? "block" : ""
+      mobile ? "block" : ""
     } px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200`;
 
     if (item.external) {
@@ -99,7 +110,6 @@ export default function Header() {
           target="_blank"
           rel="noopener noreferrer"
           className={`${baseClasses} flex items-center`}
-          onClick={onClick}
         >
           {item.name}
         </a>
@@ -109,7 +119,6 @@ export default function Header() {
     return (
       <Link
         href={item.href}
-        onClick={onClick}
         className={`${baseClasses} flex items-center group`}
       >
         {item.name}
@@ -194,7 +203,7 @@ export default function Header() {
               <NavLink
                 key={item.name}
                 item={item}
-                isMobile
+                mobile
                 onClick={() => setIsMobileMenuOpen(false)}
               />
             ))}
