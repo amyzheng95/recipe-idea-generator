@@ -79,10 +79,23 @@ export async function POST(request: Request) {
         name: body.name,
         ingredients: body.ingredients,
         instructions: body.instructions,
+        category: body.category || 'uncategorized',
+        cuisine: body.cuisine || 'other',
+        mealType: body.mealType || 'other',
+        imageUrl: body.imageUrl,
+        rating: body.rating || 0,
+        prepTime: body.prepTime || 0,
+        cookTime: body.cookTime || 0,
+        difficulty: body.difficulty || 'easy',
+        servings: body.servings || 1,
+        tags: body.tags || [],
+        description: body.description || '',
+        calories: body.calories || 0,
       },
     });
     return NextResponse.json(recipe, { status: 201 });
   } catch (error) {
+    console.error("Error creating recipe:", error);
     return NextResponse.json(
       { message: "Error creating recipe" },
       { status: 500 }
