@@ -36,17 +36,10 @@ type NavItem = {
 };
 
 const navigation: NavItem[] = [
-  { name: "Home", href: "/" },
-  { name: "About", href: "/about" },
-  { name: "Recipes", href: "/recipes" },
-  {
-    name: "GitHub",
-    href: "https://github.com/yourusername/yourrepo",
-    external: true,
-  },
-  { name: "All Recipes", href: "/" },
+  { name: "Recipes", href: "/" },
   { name: "Cooking Technique", href: "/techniques" },
   { name: "Product Recs", href: "/products" },
+  { name: "About", href: "/about" },
 ];
 
 const socialLinks = [
