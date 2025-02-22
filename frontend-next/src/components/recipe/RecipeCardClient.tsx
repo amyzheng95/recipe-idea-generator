@@ -3,16 +3,28 @@
 import React, { useState, useEffect } from "react";
 import RecipeCard from "./RecipeCard";
 
-type Recipe = {
+// First, define the expected recipe type
+type RecipeCardProps = {
   id: string;
   name: string;
-  imageUrl?: string;
-  rating?: number;
-  ingredients: string[];
-  instructions: string[];
+  imageUrl: string | null;
+  rating: number | null;
+  category: string;
+  cuisine: string;
+  mealType: string;
+  prepTime: number | null;
+  cookTime: number | null;
+  difficulty: string | null;
+  servings: number | null;
+  calories: number | null;
+  description: string | null;
 };
 
-export default function RecipeCardClient({ recipe }: { recipe: Recipe }) {
+export default function RecipeCardClient({
+  recipe,
+}: {
+  recipe: RecipeCardProps;
+}) {
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -37,5 +49,19 @@ export default function RecipeCardClient({ recipe }: { recipe: Recipe }) {
     );
   }
 
-  return <RecipeCard recipe={recipe} />;
+  // Ensure all required properties are present
+  const recipeWithDefaults: RecipeCardProps = {
+    ...recipe,
+    category: recipe.category || "uncategorized",
+    cuisine: recipe.cuisine || "other",
+    mealType: recipe.mealType || "other",
+    prepTime: recipe.prepTime || 0,
+    cookTime: recipe.cookTime || 0,
+    difficulty: recipe.difficulty || null,
+    servings: recipe.servings || null,
+    calories: recipe.calories || null,
+    description: recipe.description || null,
+  };
+
+  return <RecipeCard recipe={recipeWithDefaults} />;
 }
