@@ -70,6 +70,59 @@ const socialLinks = [
   },
 ];
 
+type NavLinkProps = {
+  item: NavItem;
+  mobile?: boolean;
+  onClick?: () => void;
+};
+
+const NavLink = ({ item, mobile = false, onClick }: NavLinkProps) => {
+  const pathname = usePathname();
+  const isActive = !item.external && pathname === item.href;
+  const baseClasses = `${
+    isActive
+      ? "text-brand-pink dark:text-blue-400"
+      : "text-gray-700 dark:text-gray-200"
+  } ${
+    mobile ? "block" : ""
+  } px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200`;
+
+  if (item.external) {
+    return (
+      <a
+        href={item.href}
+        target="_blank"
+        rel="noopener noreferrer"
+        className={`${baseClasses} flex items-center`}
+        onClick={onClick}
+      >
+        {item.name}
+      </a>
+    );
+  }
+
+  return (
+    <Link
+      href={item.href}
+      className={`${baseClasses} flex items-center group`}
+      onClick={onClick}
+    >
+      {item.name}
+      {isActive && (
+        <div className="relative w-6 h-6 ml-2">
+          <Image
+            src="/images/noodles.png"
+            alt=""
+            width={50}
+            height={50}
+            className="transition-transform duration-300 group-hover:rotate-12"
+          />
+        </div>
+      )}
+    </Link>
+  );
+};
+
 export default function Header() {
   const pathname = usePathname();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -85,47 +138,6 @@ export default function Header() {
       />
     </div>
   );
-
-  const NavLink = ({
-    item,
-    mobile = false,
-  }: {
-    item: NavItem;
-    mobile?: boolean;
-  }) => {
-    const pathname = usePathname();
-    const isActive = !item.external && pathname === item.href;
-    const baseClasses = `${
-      isActive
-        ? "text-brand-pink dark:text-blue-400"
-        : "text-gray-700 dark:text-gray-200"
-    } ${
-      mobile ? "block" : ""
-    } px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200`;
-
-    if (item.external) {
-      return (
-        <a
-          href={item.href}
-          target="_blank"
-          rel="noopener noreferrer"
-          className={`${baseClasses} flex items-center`}
-        >
-          {item.name}
-        </a>
-      );
-    }
-
-    return (
-      <Link
-        href={item.href}
-        className={`${baseClasses} flex items-center group`}
-      >
-        {item.name}
-        {isActive && <ActiveIcon />}
-      </Link>
-    );
-  };
 
   return (
     <header className="sticky top-0 z-50 bg-brand-yellow dark:bg-gray-900 shadow-md">
