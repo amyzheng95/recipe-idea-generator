@@ -1,11 +1,5 @@
 import { useState, useEffect } from "react";
-
-type Recipe = {
-  id: string;
-  name: string;
-  ingredients: string[];
-  instructions: string[];
-};
+import { Recipe } from "@/types/recipe";
 
 export function useRecipes() {
   const [recipes, setRecipes] = useState<Recipe[]>([]);

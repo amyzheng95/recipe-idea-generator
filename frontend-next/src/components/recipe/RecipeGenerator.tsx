@@ -7,10 +7,11 @@ import Card from "@/components/ui/Card";
 import { useRecipes } from "@/hooks/useRecipes";
 import { slugify } from "@/utils/slugify";
 import RecipeCardClient from "@/components/recipe/RecipeCardClient";
+import { Recipe } from "@/types/recipe";
 
 export default function RecipeGenerator() {
   const { recipes, loading, error, fetchSingleRecipe } = useRecipes();
-  const [singleRecipe, setSingleRecipe] = useState(null);
+  const [singleRecipe, setSingleRecipe] = useState<Recipe | null>(null);
 
   const handleFetchSingleRecipe = async (id: string) => {
     try {

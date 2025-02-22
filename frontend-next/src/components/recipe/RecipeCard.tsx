@@ -4,23 +4,13 @@ import Image from "next/image";
 import { StarIcon } from "@heroicons/react/20/solid";
 import { slugify } from "@/utils/slugify";
 import { ClockIcon, UserIcon, FireIcon } from "@heroicons/react/24/outline";
+import { Recipe } from "@/types/recipe";
 
 type RecipeCardProps = {
-  recipe: {
-    id: string;
-    name: string;
-    imageUrl: string | null;
-    rating: number | null;
-    category: string;
-    cuisine: string;
-    mealType: string;
-    prepTime: number | null;
-    cookTime: number | null;
-    difficulty: string | null;
-    servings: number | null;
-    calories: number | null;
-    description: string | null;
-  };
+  recipe: Omit<
+    Recipe,
+    "ingredients" | "instructions" | "videoUrl" | "videoInstructions" | "tags"
+  >;
   href: string;
 };
 
