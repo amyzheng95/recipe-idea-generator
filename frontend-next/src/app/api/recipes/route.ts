@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { Prisma } from "@prisma/client";
 
 type Recipe = {
   id: string;
@@ -19,14 +20,14 @@ export async function GET(request: Request) {
     const minRating = searchParams.get("minRating");
     const tags = searchParams.get("tags")?.split(",");
 
-    const where = {
+    const filters: Prisma.RecipeWhereInput = {
       ...(category && { category }),
       ...(cuisine && { cuisine }),
       ...(mealType && { mealType }),
       ...(difficulty && { difficulty }),
       ...(maxTime && { 
         prepTime: { 
-          plus: { cookTime: { lte: parseInt(maxTime) } }
+          lte: parseInt(maxTime)
         }
       }),
       ...(minRating && { rating: { gte: parseFloat(minRating) } }),
@@ -34,7 +35,7 @@ export async function GET(request: Request) {
     };
 
     const recipes = await prisma.recipe.findMany({
-      where,
+      where: filters,
       select: {
         id: true,
         name: true,
