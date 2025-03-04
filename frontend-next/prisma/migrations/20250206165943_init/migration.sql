@@ -20,6 +20,9 @@ CREATE TABLE "Recipe" (
     "updatedAt" TIMESTAMP(3) NOT NULL,
     "videoUrl" TEXT,
     "videoInstructions" JSONB,
+    "isPublished" BOOLEAN,
+    "views" INTEGER,
+    "favorites" INTEGER,
 
     CONSTRAINT "Recipe_pkey" PRIMARY KEY ("id")
 );
