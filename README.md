@@ -68,6 +68,8 @@ npx prisma studio
 - `npx prisma migrate dev` - Create and apply migrations
 - `npx prisma migrate reset` - Reset database
 - `npx prisma studio` - Open database GUI
-- `npx prisma db push` - Push schema changes without migrations
+- `npx prisma db push` - Push schema changes without migrations schema.prisma
 - `npx prisma format` - Format schema file
 
+# Production:
+After updating schema.prisma, 
