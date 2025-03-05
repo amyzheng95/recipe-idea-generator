@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Amatic_SC, Chakra_Petch } from "next/font/google";
 import { ThemeProvider } from "next-themes";
+import { Analytics } from "@vercel/analytics/react";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import "./globals.css";
@@ -36,6 +37,7 @@ export default function RootLayout({
           <Header />
           <main className="flex-grow">{children}</main>
           <Footer />
+          <Analytics />
         </ThemeProvider>
       </body>
     </html>
