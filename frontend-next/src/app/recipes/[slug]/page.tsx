@@ -218,60 +218,50 @@ export default function RecipeDetailsPage({
               <div className="flex items-center justify-between mb-4">
                 <h2 className="text-xl font-bold">Instructions</h2>
                 {recipe.videoUrl && (
-                  <Switch.Group>
-                    <div className="flex items-center">
-                      <Switch.Label className="mr-3 text-sm text-gray-600 dark:text-gray-300">
-                        Show Video
-                      </Switch.Label>
-                      <Switch
-                        checked={showVideo}
-                        onChange={setShowVideo}
+                  <div className="flex items-center">
+                    <label className="mr-3 text-sm text-gray-600 dark:text-gray-300">
+                      Show Video
+                    </label>
+                    <Switch
+                      checked={showVideo}
+                      onChange={setShowVideo}
+                      className={`${
+                        showVideo ? "bg-brand-pink" : "bg-gray-200"
+                      } relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none`}
+                    >
+                      <span
                         className={`${
-                          showVideo ? "bg-brand-pink" : "bg-gray-200"
-                        } relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none`}
-                      >
-                        <span
-                          className={`${
-                            showVideo ? "translate-x-6" : "translate-x-1"
-                          } inline-block h-4 w-4 transform rounded-full bg-white transition-transform`}
-                        />
-                      </Switch>
-                    </div>
-                  </Switch.Group>
+                          showVideo ? "translate-x-6" : "translate-x-1"
+                        } inline-block h-4 w-4 transform rounded-full bg-white transition-transform`}
+                      />
+                    </Switch>
+                  </div>
                 )}
               </div>
 
               {showVideo && <VideoPlayer />}
 
-              <ol className="list-decimal list-inside space-y-2 mt-4 max-h-[400px] overflow-y-auto">
-                {videoInstructions.map((instruction, index) => (
+              <ol className="list-decimal list-inside space-y-2 mt-4 overflow-y-auto">
+                {recipe.instructions.map((instruction, index) => (
                   <li
                     key={index}
                     className="text-gray-600 dark:text-gray-300 pl-2"
                   >
-                    <div className="flex items-start gap-2">
-                      {showVideo && (
-                        <button
-                          onClick={() =>
-                            setCurrentTimestamp(instruction.timestamp)
-                          }
-                          className="flex items-center text-brand-pink hover:text-brand-orange transition-colors mt-1"
-                        >
-                          <PlayCircleIcon className="h-5 w-5 mr-1" />
-                          <span className="text-sm">
-                            {Math.floor(instruction.timestamp / 60)}:
-                            {(instruction.timestamp % 60)
-                              .toString()
-                              .padStart(2, "0")}
-                          </span>
-                        </button>
-                      )}
-                      <span
-                        className={showVideo ? "flex-1 text-sm" : "text-sm"}
+                    {showVideo && recipe.videoUrl && (
+                      <button
+                        onClick={() => setCurrentTimestamp(index * 30)}
+                        className="flex items-center text-brand-pink hover:text-brand-orange transition-colors mt-1"
                       >
-                        {instruction.text}
-                      </span>
-                    </div>
+                        <PlayCircleIcon className="h-5 w-5 mr-1" />
+                        <span className="text-sm">
+                          {Math.floor((index * 30) / 60)}:
+                          {((index * 30) % 60).toString().padStart(2, "0")}
+                        </span>
+                      </button>
+                    )}
+                    <span className={showVideo ? "flex-1 text-sm" : "text-sm"}>
+                      {instruction}
+                    </span>
                   </li>
                 ))}
               </ol>
