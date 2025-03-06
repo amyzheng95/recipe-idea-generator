@@ -33,6 +33,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+        <meta name="google-adsense-account" content="ca-pub-9702853544579264" />
+      </head>
       <body className={`${chakraPetch.className} flex flex-col min-h-screen`}>
         <ThemeProvider attribute="class">
           <Header />
