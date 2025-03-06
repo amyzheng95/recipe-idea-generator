@@ -36,6 +36,12 @@ type VideoInstruction = {
   videoId: string;
 };
 
+function getYouTubeVideoId(url: string) {
+  const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
+  const match = url?.match(regExp);
+  return match && match[2].length === 11 ? match[2] : null;
+}
+
 export default function RecipeDetailsPage({
   params,
 }: {
@@ -122,7 +128,13 @@ export default function RecipeDetailsPage({
             {/* Hero Image */}
             <div className="relative h-[400px] rounded-lg overflow-hidden">
               <Image
-                src={recipe.imageUrl || "/images/default-recipe.jpg"}
+                src={
+                  recipe.videoUrl
+                    ? `https://img.youtube.com/vi/${getYouTubeVideoId(
+                        recipe.videoUrl
+                      )}/maxresdefault.jpg`
+                    : recipe.imageUrl || "/images/default-recipe.jpg"
+                }
                 alt={recipe.name}
                 fill
                 className="object-cover"
