@@ -42,7 +42,6 @@ export async function POST(request: Request) {
         category: aiRecipe.category || 'AI Generated',
         cuisine: aiRecipe.cuisine || 'other',
         mealType: aiRecipe.mealType || 'other',
-        imageUrl: aiRecipe.imageUrl,
         rating: aiRecipe.rating || 0,
         prepTime: aiRecipe.prepTime || 0,
         cookTime: aiRecipe.cookTime || 0,

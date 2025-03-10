@@ -11,22 +11,30 @@ datasource db {
 model Recipe {
   id            String   @id @default(cuid())
   name          String
-  imageUrl      String?
   rating        Float?
   ingredients   String[]
   instructions  String[]
   category      String
   cuisine       String   // e.g., Italian, Indian, Mexican
-  mealType      String   // e.g., Breakfast, Lunch, Dinner
-  prepTime      Int?     // in minutes
-  cookTime      Int?     // in minutes
+  mealType      String   @map("meal_type")
+  prepTime      Int?     @map("prep_time")
+  cookTime      Int?     @map("cook_time")
   difficulty    String?  // Easy, Medium, Hard
   servings      Int?
   tags          String[] // e.g., ["vegetarian", "gluten-free", "spicy"]
   description   String?  // Brief description of the recipe
   calories      Int?     // Nutritional info
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
-  videoUrl        String?
-  videoInstructions Json? // Store as array of { timestamp: number, instruction: string }
+  video         Video?   // Relation to Video model
+  createdAt     DateTime @default(now()) @map("created_at")
+  updatedAt     DateTime @updatedAt @map("updated_at")
+}
+
+model Video {
+  id         String   @id @default(cuid())
+  videoUrl   String   @map("video_url")
+  videoId    String   @map("video_id")
+  recipe     Recipe   @relation(fields: [recipeId], references: [id])
+  recipeId   String   @unique @map("recipe_id")
+  createdAt  DateTime @default(now()) @map("created_at")
+  updatedAt  DateTime @updatedAt @map("updated_at")
 }

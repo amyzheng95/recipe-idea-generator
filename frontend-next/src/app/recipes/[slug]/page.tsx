@@ -9,7 +9,6 @@ import { PlayCircleIcon } from "@heroicons/react/24/solid";
 type Recipe = {
   id: string;
   name: string;
-  imageUrl: string | null;
   rating: number | null;
   category: string;
   cuisine: string;
@@ -28,6 +27,9 @@ type Recipe = {
     timestamp: number;
     instruction: string;
   }[];
+  video?: {
+    videoId: string;
+  };
 };
 
 type VideoInstruction = {
@@ -71,14 +73,9 @@ export default function RecipeDetailsPage({
 
           // Set up video instructions if video exists
           if (foundRecipe.videoUrl) {
-            const videoId = foundRecipe.videoUrl;
             const instructions = foundRecipe.instructions.map(
               (text: string, index: number) => ({
                 text,
-                timestamp:
-                  foundRecipe.videoInstructions?.[index]?.timestamp ||
-                  index * 30,
-                videoId,
               })
             );
             setVideoInstructions(instructions);
@@ -97,7 +94,7 @@ export default function RecipeDetailsPage({
       <iframe
         width="100%"
         height="100%"
-        src={`https://www.youtube.com/embed/${videoInstructions[0]?.videoId}${
+        src={`https://www.youtube.com/embed/${recipe?.video?.videoId}${
           currentTimestamp ? `?start=${currentTimestamp}` : ""
         }`}
         title="Recipe Video"
@@ -128,13 +125,7 @@ export default function RecipeDetailsPage({
             {/* Hero Image */}
             <div className="relative h-[400px] rounded-lg overflow-hidden">
               <Image
-                src={
-                  recipe.videoUrl
-                    ? `https://img.youtube.com/vi/${getYouTubeVideoId(
-                        recipe.videoUrl
-                      )}/maxresdefault.jpg`
-                    : recipe.imageUrl || "/images/default-recipe.jpg"
-                }
+                src={`https://img.youtube.com/vi/${recipe.video.videoId}/maxresdefault.jpg`}
                 alt={recipe.name}
                 fill
                 className="object-cover"
@@ -229,7 +220,7 @@ export default function RecipeDetailsPage({
             <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-md">
               <div className="flex items-center justify-between mb-4">
                 <h2 className="text-xl font-bold">Instructions</h2>
-                {recipe.videoUrl && (
+                {recipe.video && (
                   <div className="flex items-center">
                     <label className="mr-3 text-sm text-gray-600 dark:text-gray-300">
                       Show Video

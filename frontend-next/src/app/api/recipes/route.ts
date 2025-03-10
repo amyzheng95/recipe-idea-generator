@@ -1,13 +1,6 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
-import { Prisma } from "@prisma/client";
-
-type Recipe = {
-  id: string;
-  name: string;
-  ingredients: string[];
-  instructions: string[];
-};
+import { Recipe } from "@/types/recipe";
 
 export async function GET(request: Request) {
   try {
@@ -16,48 +9,27 @@ export async function GET(request: Request) {
     const cuisine = searchParams.get("cuisine");
     const mealType = searchParams.get("mealType");
     const difficulty = searchParams.get("difficulty");
-    const maxTime = searchParams.get("maxTime"); // Total cook + prep time
+    const maxTime = searchParams.get("maxTime");
     const minRating = searchParams.get("minRating");
     const tags = searchParams.get("tags")?.split(",");
 
-    const filters: Prisma.RecipeWhereInput = {
-      ...(category && { category }),
-      ...(cuisine && { cuisine }),
-      ...(mealType && { mealType }),
-      ...(difficulty && { difficulty }),
-      ...(maxTime && { 
-        prepTime: { 
-          lte: parseInt(maxTime)
-        }
-      }),
-      ...(minRating && { rating: { gte: parseFloat(minRating) } }),
-      ...(tags && { tags: { hasEvery: tags } }),
-    };
-
     const recipes = await prisma.recipe.findMany({
-      where: filters,
-      select: {
-        id: true,
-        name: true,
-        imageUrl: true,
-        rating: true,
-        category: true,
-        cuisine: true,
-        mealType: true,
-        prepTime: true,
-        cookTime: true,
-        difficulty: true,
-        servings: true,
-        tags: true,
-        description: true,
-        calories: true,
-        ingredients: true,
-        instructions: true,
-        createdAt: true,
-        updatedAt: true,
+      where: {
+        ...(category && { category }),
+        ...(cuisine && { cuisine }),
+        ...(mealType && { mealType }),
+        ...(difficulty && { difficulty }),
+        ...(maxTime && {
+          OR: [
+            { prepTime: { lte: parseInt(maxTime) } },
+            { cookTime: { lte: parseInt(maxTime) } },
+          ],
+        }),
+        ...(minRating && { rating: { gte: parseFloat(minRating) } }),
+        ...(tags && { tags: { hasEvery: tags } }),
       },
-      orderBy: {
-        createdAt: 'desc',
+      include: {
+        video: true,
       },
     });
 
@@ -65,7 +37,7 @@ export async function GET(request: Request) {
   } catch (error) {
     console.error("Error fetching recipes:", error);
     return NextResponse.json(
-      { error: "Error fetching recipes" },
+      { error: "Failed to fetch recipes" },
       { status: 500 }
     );
   }
@@ -74,31 +46,46 @@ export async function GET(request: Request) {
 export async function POST(request: Request) {
   try {
     const body = await request.json();
+    
+    // Convert camelCase to snake_case for database
     const recipe = await prisma.recipe.create({
       data: {
         name: body.name,
-        ingredients: body.ingredients,
-        instructions: body.instructions,
-        category: body.category || 'uncategorized',
-        cuisine: body.cuisine || 'other',
-        mealType: body.mealType || 'other',
-        imageUrl: body.imageUrl,
         rating: body.rating || 0,
-        prepTime: body.prepTime || 0,
-        cookTime: body.cookTime || 0,
+        category: body.category,
+        cuisine: body.cuisine,
+        meal_type: body.mealType,
+        prep_time: body.prepTime || 0,
+        cook_time: body.cookTime || 0,
         difficulty: body.difficulty || 'easy',
         servings: body.servings || 1,
         tags: body.tags || [],
         description: body.description || '',
         calories: body.calories || 0,
+        ingredients: body.ingredients,
+        instructions: body.instructions,
+        ...(body.video && {
+          video: {
+            create: {
+              video_url: body.video.videoUrl,
+              video_id: body.video.videoId,
+            },
+          },
+        }),
+      },
+      include: {
+        video: true,
       },
     });
-    return NextResponse.json(recipe, { status: 201 });
+
+    // Convert back to camelCase for response
+    const camelCaseRecipe = snakeToCamel<CamelCaseRecipe>(recipe);
+    return NextResponse.json(camelCaseRecipe, { status: 201 });
   } catch (error) {
     console.error("Error creating recipe:", error);
     return NextResponse.json(
-      { message: "Error creating recipe" },
+      { error: "Failed to create recipe" },
       { status: 500 }
     );
   }
-} 
+}

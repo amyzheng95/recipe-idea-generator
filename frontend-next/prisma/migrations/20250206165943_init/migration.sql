@@ -2,7 +2,6 @@
 CREATE TABLE "Recipe" (
     "id" TEXT NOT NULL,
     "name" TEXT NOT NULL,
-    "imageUrl" TEXT,
     "rating" DOUBLE PRECISION,
     "ingredients" TEXT[],
     "instructions" TEXT[],
@@ -19,7 +18,7 @@ CREATE TABLE "Recipe" (
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
     "videoUrl" TEXT,
-    "videoInstructions" JSONB,
+    "videoId" TEXT,
     "isPublished" BOOLEAN,
     "views" INTEGER,
     "favorites" INTEGER,

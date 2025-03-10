@@ -1,5 +1,7 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { CamelCaseRecipe } from "@/types/recipe";
+import { snakeToCamel } from "@/utils/caseConversion";
 
 export async function GET(
   request: Request,
@@ -16,6 +18,9 @@ export async function GET(
           mode: 'insensitive',
         },
       },
+      include: {
+        video: true,
+      },
     });
 
     if (!recipe) {
@@ -25,7 +30,9 @@ export async function GET(
       );
     }
 
-    return NextResponse.json(recipe);
+    // Convert to camelCase for frontend
+    const camelCaseRecipe = snakeToCamel<CamelCaseRecipe>(recipe);
+    return NextResponse.json(camelCaseRecipe);
   } catch (error) {
     console.error("Error fetching recipe:", error);
     return NextResponse.json(

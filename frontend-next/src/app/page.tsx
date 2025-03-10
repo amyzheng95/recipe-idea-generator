@@ -7,7 +7,6 @@ import RecipeSearch from "@/components/recipe/RecipeSearch";
 type Recipe = {
   id: string;
   name: string;
-  imageUrl: string | null;
   rating: number | null;
   category: string;
   cuisine: string;

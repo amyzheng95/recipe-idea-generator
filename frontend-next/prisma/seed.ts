@@ -7,7 +7,6 @@ async function main() {
     data: [
       {
         name: "Pasta Carbonara",
-        imageUrl: "https://www.indianhealthyrecipes.com/wp-content/uploads/2023/05/red-sauce-pasta-recipe.jpg",
         rating: 4.5,
         category: "Main Course",
         cuisine: "Italian",
@@ -29,7 +28,6 @@ async function main() {
       },
       {
         name: "Chicken Curry",
-        imageUrl: "https://www.indianhealthyrecipes.com/wp-content/uploads/2023/05/red-sauce-pasta-recipe.jpg",
         rating: 4.2,
         category: "Main Course",
         cuisine: "Indian",
@@ -51,7 +49,6 @@ async function main() {
       },
       {
         name: "Pancakes",
-        imageUrl: "https://www.indianhealthyrecipes.com/wp-content/uploads/2023/05/red-sauce-pasta-recipe.jpg",
         rating: 4.2,
         category: "Breakfast",
         cuisine: "American",
@@ -72,7 +69,6 @@ async function main() {
       },
       {
         name: "Chocolate Chip Cookies",
-        imageUrl: "https://www.indianhealthyrecipes.com/wp-content/uploads/2023/05/red-sauce-pasta-recipe.jpg",
         rating: 4.5,
         category: "Dessert",
         cuisine: "American",

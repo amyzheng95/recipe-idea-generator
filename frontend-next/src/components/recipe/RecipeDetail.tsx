@@ -10,7 +10,6 @@ type RecipeDetailProps = {
   recipe: {
     id: string;
     name: string;
-    imageUrl?: string;
     rating?: number;
     ingredients: string[];
     instructions: string[];
